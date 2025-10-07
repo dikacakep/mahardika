@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 // Definisikan teks yang akan ditampilkan secara bergantian
-const TEXTS_TO_TYPE = ["Web Developer", "Disocord Bot Developer", "Roblox Developer"];
+const TEXTS_TO_TYPE = ["Web Developer", "Discord Bot Developer", "Roblox Developer"];
 
 // Komponen utama
 export default function LoopingGradientText({
@@ -77,3 +77,4 @@ export default function LoopingGradientText({
     </div>
   );
 }
+

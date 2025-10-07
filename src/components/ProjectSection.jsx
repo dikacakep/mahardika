@@ -20,10 +20,10 @@ import { useNavbar } from '../contexts/NavbarContext';
 const dummyProjects = [
     {
     title: "Portfolio",
-    description: "Website portofolio pribadi yang dibangun dengan React, Next.js, dan Tailwind CSS, di-deploy di Netlify",
-    tech: ["Next.js", "React", "TailwindCSS", "Framer Motion"],
-    link: "https://github.com/mahardikarms/portfolio",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
+    description: "Sebuah Discord bot yang dibangun khusus untuk memantau dan menampilkan stok item secara real-time dari game Roblox. Bot ini dirancang untuk memberikan pembaruan cepat, akurat, dan otomatis kepada pengguna, sehingga memudahkan pemain dalam mengelola dan memantau ketersediaan item di dalam game. Kini, bot ini telah mendapatkan Verified Bot Badge dari Discord, yang menandakan keandalannya, keamanan tinggi, serta kualitasnya sebagai layanan resmi yang diakui oleh Discord.",
+    tech: ["JavaScript", "NodeJS", "DiscordJS", "NextJS"],
+    link: "https://plantvsbrainrots.vercel.app/",
+    image: "https://plantvsbrainrots.vercel.app/discord.png",
     category: "Web/Apps",
   },
 ];
@@ -31,7 +31,7 @@ const dummyProjects = [
 // ===================================
 // DATA SERTIFIKAT ZAIN AHMAD FAHREZI
 // ===================================
-const userCertificates = [
+/*const userCertificates = [
     {
         title: "Belajar memahami dirinya",
         issuer: "Banten, Tangerang",
@@ -39,7 +39,7 @@ const userCertificates = [
         link: "/certificates/belajar memahami dirinya.pdf",
         image: "/certificate-images/Belajar memahami dirinya.png",
     },
-];
+];*/
 
 const techStack = {
     frontend: [

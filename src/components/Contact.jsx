@@ -119,7 +119,7 @@ const Contact = () => {
       id: now,
       name,
       message,
-      photo: commentForm.photoPreview || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=00ffdc&color=000754&size=100`,
+      photo: commentForm.photoPreview || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0099ff&color=000754&size=100`,
       timestamp: new Date().toISOString(),
       likes: 0,
     };
@@ -171,10 +171,10 @@ const Contact = () => {
 
   return (
     <section id="contact" className="py-20 px-4 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/20 via-transparent to-cyan-900/10"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/20 via-transparent to-[#0099ff]/10"></div>
       
-      <div className="absolute top-20 left-10 w-20 h-20 bg-cyan-500/10 rounded-full blur-xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-xl animate-pulse delay-1000"></div>
+      <div className="absolute top-20 left-10 w-20 h-20 bg-[#0099ff]/10 rounded-full blur-xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-32 h-32 bg-[#0055ff]/10 rounded-full blur-xl animate-pulse delay-1000"></div>
       <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-purple-500/10 rounded-full blur-xl animate-pulse delay-500"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -186,7 +186,7 @@ const Contact = () => {
           className="text-center mb-20 relative"
         >
           <h2 className="text-5xl md:text-6xl font-bold font-moderniz mb-4">
-            <span className="bg-gradient-to-r from-cyan-400 via-emerald-400 to-cyan-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#0099ff] via-[#0055ff] to-[#0099ff] bg-clip-text text-transparent">
               GET IN
             </span>
             {' '}
@@ -198,10 +198,10 @@ const Contact = () => {
           
           <button
             onClick={() => isAuthenticated ? setIsAdminOpen(true) : setIsLoginOpen(true)}
-            className="absolute top-0 right-0 bg-slate-800/50 hover:bg-slate-700/50 backdrop-blur-sm p-3 rounded-full border border-slate-600/50 hover:border-cyan-400/50 transition-all duration-300 group"
+            className="absolute top-0 right-0 bg-slate-800/50 hover:bg-slate-700/50 backdrop-blur-sm p-3 rounded-full border border-slate-600/50 hover:border-[#0099ff]/50 transition-all duration-300 group"
             title={isAuthenticated ? "Admin Panel" : "Admin Login"}
           >
-            <FaCog className="text-slate-400 group-hover:text-cyan-400 transition-colors duration-300 group-hover:rotate-90" />
+            <FaCog className="text-slate-400 group-hover:text-[#0099ff] transition-colors duration-300 group-hover:rotate-90" />
           </button>
         </motion.div>
 
@@ -214,10 +214,10 @@ const Contact = () => {
             className="space-y-8"
           >
             <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-600 to-emerald-600 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#0099ff] to-[#0055ff] rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
               <div className="relative bg-slate-900/80 backdrop-blur-xl rounded-3xl p-8 border border-slate-700/50">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-3 bg-gradient-to-r from-cyan-600 to-emerald-600 rounded-full">
+                  <div className="p-3 bg-gradient-to-r from-[#0099ff] to-[#0055ff] rounded-full">
                     <FaPaperPlane className="text-white text-xl" />
                   </div>
                   <div>
@@ -229,14 +229,14 @@ const Contact = () => {
                 <form onSubmit={handleContactSubmit} className="space-y-6">
                   <div className="group">
                     <div className="relative">
-                      <FaUser className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 group-focus-within:text-cyan-400 transition-colors duration-300" />
+                      <FaUser className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 group-focus-within:text-[#0099ff] transition-colors duration-300" />
                       <input
                         type="text"
                         placeholder="Nama Anda"
                         value={contactForm.name}
                         maxLength={MAX_NAME_LENGTH}
                         onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
-                        className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
+                        className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:border-[#0099ff] focus:ring-2 focus:ring-[#0099ff]/20 transition-all duration-300"
                         required
                       />
                     </div>
@@ -244,13 +244,13 @@ const Contact = () => {
 
                   <div className="group">
                     <div className="relative">
-                      <FaEnvelope className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 group-focus-within:text-cyan-400 transition-colors duration-300" />
+                      <FaEnvelope className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 group-focus-within:text-[#0099ff] transition-colors duration-300" />
                       <input
                         type="email"
                         placeholder="Email Anda"
                         value={contactForm.email}
                         onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
-                        className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
+                        className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:border-[#0099ff] focus:ring-2 focus:ring-[#0099ff]/20 transition-all duration-300"
                         required
                       />
                     </div>
@@ -258,14 +258,14 @@ const Contact = () => {
 
                   <div className="group">
                     <div className="relative">
-                      <FaComment className="absolute left-4 top-6 text-slate-400 group-focus-within:text-cyan-400 transition-colors duration-300" />
+                      <FaComment className="absolute left-4 top-6 text-slate-400 group-focus-within:text-[#0099ff] transition-colors duration-300" />
                       <textarea
                         placeholder="Pesan Anda"
                         rows="4"
                         value={contactForm.message}
                         maxLength={MAX_MESSAGE_LENGTH}
                         onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
-                        className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 resize-none"
+                        className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:border-[#0099ff] focus:ring-2 focus:ring-[#0099ff]/20 transition-all duration-300 resize-none"
                         required
                       ></textarea>
                     </div>
@@ -276,7 +276,7 @@ const Contact = () => {
                     disabled={isSubmittingContact}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full bg-gradient-to-r from-cyan-600 to-emerald-600 hover:from-cyan-500 hover:to-emerald-500 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-cyan-500/25 disabled:opacity-50"
+                    className="w-full bg-gradient-to-r from-[#0099ff] to-[#0055ff] hover:from-[#007acc] hover:to-[#0044cc] text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-[#0099ff]/25 disabled:opacity-50"
                   >
                     {isSubmittingContact ? (
                       <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -340,10 +340,10 @@ const Contact = () => {
             className="space-y-8"
           >
             <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-blue-600 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#0099ff] to-[#4079ff] rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
               <div className="relative bg-slate-900/80 backdrop-blur-xl rounded-3xl p-8 border border-slate-700/50">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-3 bg-gradient-to-r from-emerald-600 to-blue-600 rounded-full">
+                  <div className="p-3 bg-gradient-to-r from-[#0099ff] to-[#4079ff] rounded-full">
                     <FaComment className="text-white text-xl" />
                   </div>
                   <div>
@@ -365,7 +365,7 @@ const Contact = () => {
                             </div>
                           )}
                         </div>
-                        <label className="absolute -bottom-2 -right-2 bg-cyan-600 text-white p-2 rounded-full cursor-pointer hover:bg-cyan-500 transition-colors duration-300">
+                        <label className="absolute -bottom-2 -right-2 bg-[#0099ff] text-white p-2 rounded-full cursor-pointer hover:bg-[#007acc] transition-colors duration-300">
                           <FaCamera className="text-sm" />
                           <input
                             type="file"
@@ -383,7 +383,7 @@ const Contact = () => {
                         value={commentForm.name}
                         maxLength={MAX_NAME_LENGTH}
                         onChange={(e) => setCommentForm(prev => ({ ...prev, name: e.target.value }))}
-                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all duration-300"
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:border-[#0099ff] focus:ring-2 focus:ring-[#0099ff]/20 transition-all duration-300"
                         required
                       />
                       <textarea
@@ -392,7 +392,7 @@ const Contact = () => {
                         value={commentForm.message}
                         maxLength={MAX_MESSAGE_LENGTH}
                         onChange={(e) => setCommentForm(prev => ({ ...prev, message: e.target.value }))}
-                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all duration-300 resize-none"
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:border-[#0099ff] focus:ring-2 focus:ring-[#0099ff]/20 transition-all duration-300 resize-none"
                         required
                       ></textarea>
                     </div>
@@ -403,7 +403,7 @@ const Contact = () => {
                     disabled={isSubmittingComment}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-emerald-500/25 disabled:opacity-50"
+                    className="w-full bg-gradient-to-r from-[#0099ff] to-[#4079ff] hover:from-[#007acc] hover:to-[#2d5acc] text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-[#0099ff]/25 disabled:opacity-50"
                   >
                     {isSubmittingComment ? (
                       <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -420,7 +420,7 @@ const Contact = () => {
 
             <div className="space-y-4">
               <h4 className="text-xl font-bold text-white flex items-center gap-2">
-                <FaComment className="text-cyan-400" />
+                <FaComment className="text-[#0099ff]" />
                 Comments ({comments.length})
               </h4>
               
@@ -433,7 +433,7 @@ const Contact = () => {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95, x: -80 }}
                       transition={{ duration: 0.35, ease: "easeOut" }}
-                      className="group relative bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/30 hover:border-cyan-400/30 transition-all duration-300"
+                      className="group relative bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/30 hover:border-[#0099ff]/30 transition-all duration-300"
                     >
                       <div className="flex gap-4">
                         <img 
@@ -505,8 +505,8 @@ const Contact = () => {
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: rgba(51, 65, 85, 0.3); border-radius: 3px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #06b6d4, #10b981); border-radius: 3px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: linear-gradient(to bottom, #0891b2, #059669); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #0099ff, #0055ff); border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: linear-gradient(to bottom, #007acc, #0044cc); }
       `}</style>
     </section>
   );

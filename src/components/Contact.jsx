@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FaGithub, 
   FaInstagram, 
-  FaTiktok, 
   FaPaperPlane, 
   FaUser, 
   FaEnvelope, 
@@ -11,7 +10,6 @@ import {
   FaCamera,
   FaHeart,
   FaReply,
-  FaTrash,
   FaCog
 } from 'react-icons/fa';
 import { SiTiktok } from 'react-icons/si';
@@ -19,119 +17,133 @@ import AdminMessages from './AdminMessages';
 import AdminLogin from './AdminLogin';
 import { useAdmin } from '../contexts/AdminContext';
 
-// JSON file untuk menyimpan comments
-const COMMENTS_FILE = '/comments.json';
+const COMMENTS_KEY = 'portfolioComments';
+const MESSAGES_KEY = 'portfolioContactMessages';
+const COMMENT_COOLDOWN_MS = 30 * 1000;
+const MAX_NAME_LENGTH = 50;
+const MAX_MESSAGE_LENGTH = 500;
+
+function safeLocalStorageGet(key) {
+  try {
+    if (typeof window === 'undefined') return null;
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function safeLocalStorageSet(key, value) {
+  try {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {}
+}
+
+function sanitizeText(str, maxLength) {
+  return String(str).trim().slice(0, maxLength);
+}
 
 const Contact = () => {
-  // States untuk contact form
-  const [contactForm, setContactForm] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
   const [isSubmittingContact, setIsSubmittingContact] = useState(false);
 
-  // States untuk comments
-  const [commentForm, setCommentForm] = useState({
-    name: '',
-    message: '',
-    photo: null,
-    photoPreview: null
-  });
+  const [commentForm, setCommentForm] = useState({ name: '', message: '', photoPreview: null });
   const [comments, setComments] = useState([]);
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+  const [lastCommentTime, setLastCommentTime] = useState(0);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const { isAuthenticated } = useAdmin();
 
-  // Load comments dari localStorage (simulasi JSON file)
   useEffect(() => {
-    const savedComments = localStorage.getItem('portfolioComments');
-    if (savedComments) {
-      setComments(JSON.parse(savedComments));
-    }
+    const saved = safeLocalStorageGet(COMMENTS_KEY);
+    if (Array.isArray(saved)) setComments(saved);
   }, []);
 
-  // Handle contact form
   const handleContactSubmit = async (e) => {
     e.preventDefault();
     setIsSubmittingContact(true);
-    
-    // Save message to localStorage (simulasi JSON file)
+
     const newMessage = {
       id: Date.now(),
-      name: contactForm.name,
-      email: contactForm.email,
-      message: contactForm.message,
+      name: sanitizeText(contactForm.name, MAX_NAME_LENGTH),
+      email: sanitizeText(contactForm.email, 254),
+      message: sanitizeText(contactForm.message, MAX_MESSAGE_LENGTH),
       timestamp: new Date().toISOString(),
-      status: 'unread'
+      status: 'unread',
     };
 
-    const savedMessages = localStorage.getItem('portfolioContactMessages');
-    const messages = savedMessages ? JSON.parse(savedMessages) : [];
-    const updatedMessages = [newMessage, ...messages];
-    localStorage.setItem('portfolioContactMessages', JSON.stringify(updatedMessages));
-    
-    // Simulasi pengiriman email
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
+    const existing = safeLocalStorageGet(MESSAGES_KEY) || [];
+    safeLocalStorageSet(MESSAGES_KEY, [newMessage, ...existing]);
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     alert('Pesan berhasil dikirim! Terima kasih telah menghubungi saya.');
     setContactForm({ name: '', email: '', message: '' });
     setIsSubmittingContact(false);
   };
 
-  // Handle photo upload
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setCommentForm(prev => ({
-          ...prev,
-          photo: file,
-          photoPreview: reader.result
-        }));
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+    if (!file.type.startsWith('image/')) return;
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Ukuran foto maksimal 2MB.');
+      return;
     }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCommentForm(prev => ({ ...prev, photoPreview: reader.result }));
+    };
+    reader.readAsDataURL(file);
   };
 
-  // Handle comment submit
-  const handleCommentSubmit = (e) => {
+  const handleCommentSubmit = useCallback((e) => {
     e.preventDefault();
-    if (!commentForm.name.trim() || !commentForm.message.trim()) return;
+
+    const name = sanitizeText(commentForm.name, MAX_NAME_LENGTH);
+    const message = sanitizeText(commentForm.message, MAX_MESSAGE_LENGTH);
+    if (!name || !message) return;
+
+    const now = Date.now();
+    if (now - lastCommentTime < COMMENT_COOLDOWN_MS) {
+      alert('Tunggu sebentar sebelum mengirim komentar lagi.');
+      return;
+    }
 
     setIsSubmittingComment(true);
 
     const newComment = {
-      id: Date.now(),
-      name: commentForm.name,
-      message: commentForm.message,
-      photo: commentForm.photoPreview || `https://ui-avatars.com/api/?name=${encodeURIComponent(commentForm.name)}&background=00ffdc&color=000754&size=100`,
+      id: now,
+      name,
+      message,
+      photo: commentForm.photoPreview || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=00ffdc&color=000754&size=100`,
       timestamp: new Date().toISOString(),
-      likes: 0
+      likes: 0,
     };
 
-    const updatedComments = [newComment, ...comments];
-    setComments(updatedComments);
-    localStorage.setItem('portfolioComments', JSON.stringify(updatedComments));
-    
-    setCommentForm({ name: '', message: '', photo: null, photoPreview: null });
+    setComments(prev => {
+      const updated = [newComment, ...prev];
+      safeLocalStorageSet(COMMENTS_KEY, updated);
+      return updated;
+    });
+
+    setLastCommentTime(now);
+    setCommentForm({ name: '', message: '', photoPreview: null });
     setIsSubmittingComment(false);
-  };
+  }, [commentForm, lastCommentTime]);
 
-  // Handle like comment
-  const handleLikeComment = (commentId) => {
-    const updatedComments = comments.map(comment => 
-      comment.id === commentId 
-        ? { ...comment, likes: comment.likes + 1 }
-        : comment
-    );
-    setComments(updatedComments);
-    localStorage.setItem('portfolioComments', JSON.stringify(updatedComments));
-  };
-
+  const handleLikeComment = useCallback((commentId) => {
+    setComments(prev => {
+      const updated = prev.map(c =>
+        c.id === commentId ? { ...c, likes: c.likes + 1 } : c
+      );
+      safeLocalStorageSet(COMMENTS_KEY, updated);
+      return updated;
+    });
+  }, []);
 
   const socialLinks = [
     {
@@ -159,16 +171,13 @@ const Contact = () => {
 
   return (
     <section id="contact" className="py-20 px-4 relative overflow-hidden">
-      {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900/20 via-transparent to-cyan-900/10"></div>
       
-      {/* Floating Elements */}
       <div className="absolute top-20 left-10 w-20 h-20 bg-cyan-500/10 rounded-full blur-xl animate-pulse"></div>
       <div className="absolute bottom-20 right-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-xl animate-pulse delay-1000"></div>
       <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-purple-500/10 rounded-full blur-xl animate-pulse delay-500"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Title */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -187,15 +196,8 @@ const Contact = () => {
             Mari berkolaborasi dan ciptakan sesuatu yang amazing!
           </p>
           
-          {/* Admin Button - positioned top right */}
           <button
-            onClick={() => {
-              if (isAuthenticated) {
-                setIsAdminOpen(true);
-              } else {
-                setIsLoginOpen(true);
-              }
-            }}
+            onClick={() => isAuthenticated ? setIsAdminOpen(true) : setIsLoginOpen(true)}
             className="absolute top-0 right-0 bg-slate-800/50 hover:bg-slate-700/50 backdrop-blur-sm p-3 rounded-full border border-slate-600/50 hover:border-cyan-400/50 transition-all duration-300 group"
             title={isAuthenticated ? "Admin Panel" : "Admin Login"}
           >
@@ -204,7 +206,6 @@ const Contact = () => {
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-          {/* Left Side - Contact Form & Social */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -212,7 +213,6 @@ const Contact = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="space-y-8"
           >
-            {/* Contact Form Panel */}
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-cyan-600 to-emerald-600 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
               <div className="relative bg-slate-900/80 backdrop-blur-xl rounded-3xl p-8 border border-slate-700/50">
@@ -234,6 +234,7 @@ const Contact = () => {
                         type="text"
                         placeholder="Nama Anda"
                         value={contactForm.name}
+                        maxLength={MAX_NAME_LENGTH}
                         onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
                         className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
                         required
@@ -262,6 +263,7 @@ const Contact = () => {
                         placeholder="Pesan Anda"
                         rows="4"
                         value={contactForm.message}
+                        maxLength={MAX_MESSAGE_LENGTH}
                         onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
                         className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 resize-none"
                         required
@@ -289,14 +291,12 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Divider */}
             <div className="flex items-center gap-4">
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
               <span className="text-slate-400 font-semibold">atau</span>
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
             </div>
 
-            {/* Social Media Panel */}
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
               <div className="relative bg-slate-900/80 backdrop-blur-xl rounded-3xl p-8 border border-slate-700/50">
@@ -332,7 +332,6 @@ const Contact = () => {
             </div>
           </motion.div>
 
-          {/* Right Side - Comments System */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -340,7 +339,6 @@ const Contact = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="space-y-8"
           >
-            {/* Comment Form Panel */}
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-blue-600 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
               <div className="relative bg-slate-900/80 backdrop-blur-xl rounded-3xl p-8 border border-slate-700/50">
@@ -383,6 +381,7 @@ const Contact = () => {
                         type="text"
                         placeholder="Your Name"
                         value={commentForm.name}
+                        maxLength={MAX_NAME_LENGTH}
                         onChange={(e) => setCommentForm(prev => ({ ...prev, name: e.target.value }))}
                         className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all duration-300"
                         required
@@ -391,6 +390,7 @@ const Contact = () => {
                         placeholder="Write your comment..."
                         rows="3"
                         value={commentForm.message}
+                        maxLength={MAX_MESSAGE_LENGTH}
                         onChange={(e) => setCommentForm(prev => ({ ...prev, message: e.target.value }))}
                         className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all duration-300 resize-none"
                         required
@@ -418,7 +418,6 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Comments Display */}
             <div className="space-y-4">
               <h4 className="text-xl font-bold text-white flex items-center gap-2">
                 <FaComment className="text-cyan-400" />
@@ -426,23 +425,23 @@ const Contact = () => {
               </h4>
               
               <div className="space-y-4 max-h-96 overflow-y-auto custom-scrollbar">
-                <AnimatePresence>
-                  {comments.map((comment, index) => (
+                <AnimatePresence initial={false}>
+                  {comments.map((comment) => (
                     <motion.div
                       key={comment.id}
-                      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                      initial={{ opacity: 0, y: 20, scale: 0.97 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9, x: -100 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      exit={{ opacity: 0, scale: 0.95, x: -80 }}
+                      transition={{ duration: 0.35, ease: "easeOut" }}
                       className="group relative bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/30 hover:border-cyan-400/30 transition-all duration-300"
                     >
                       <div className="flex gap-4">
                         <img 
                           src={comment.photo} 
                           alt={comment.name}
-                          className="w-12 h-12 rounded-full object-cover border-2 border-slate-600"
+                          className="w-12 h-12 rounded-full object-cover border-2 border-slate-600 flex-shrink-0"
                         />
-                        <div className="flex-1">
+                        <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between">
                             <div>
                               <h5 className="font-semibold text-white">{comment.name}</h5>
@@ -457,7 +456,7 @@ const Contact = () => {
                               </p>
                             </div>
                           </div>
-                          <p className="text-slate-300 mt-2 leading-relaxed">{comment.message}</p>
+                          <p className="text-slate-300 mt-2 leading-relaxed break-words">{comment.message}</p>
                           <div className="flex items-center gap-4 mt-4">
                             <button
                               onClick={() => handleLikeComment(comment.id)}
@@ -485,7 +484,6 @@ const Contact = () => {
         </div>
       </div>
 
-      {/* Admin Messages Modal */}
       <AnimatePresence>
         {isAdminOpen && (
           <AdminMessages 
@@ -495,22 +493,20 @@ const Contact = () => {
         )}
       </AnimatePresence>
 
-      {/* Custom Scrollbar Styles */}
+      <AnimatePresence>
+        {isLoginOpen && !isAuthenticated && (
+          <AdminLogin
+            isOpen={isLoginOpen}
+            onClose={() => setIsLoginOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
       <style jsx>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(51, 65, 85, 0.3);
-          border-radius: 3px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: linear-gradient(to bottom, #06b6d4, #10b981);
-          border-radius: 3px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(to bottom, #0891b2, #059669);
-        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(51, 65, 85, 0.3); border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #06b6d4, #10b981); border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: linear-gradient(to bottom, #0891b2, #059669); }
       `}</style>
     </section>
   );

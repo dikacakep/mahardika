@@ -292,10 +292,10 @@ function ProjectSection() {
         className="text-center mb-20"
       >
         <h2 className="text-4xl font-bold font-moderniz">
-            <span style={{color: "#00ffdc"}}><LineShadowText shadowColor="#00b3a4">PORTFOLIO</LineShadowText></span>
-            {' '}
-            <span style={{ color: "#fff" }}><LineShadowText shadowColor="#bbbbbb">SHOWCASE</LineShadowText></span>
-        </h2>
+  <span style={{color: "#0099ff"}}><LineShadowText shadowColor="#0055ff">PORTFOLIO</LineShadowText></span>
+  {' '}
+  <span style={{ color: "#fff" }}><LineShadowText shadowColor="#bbbbbb">SHOWCASE</LineShadowText></span>
+</h2>
       </motion.div>
 
       <div className="w-full">

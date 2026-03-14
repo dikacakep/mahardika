@@ -16,7 +16,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [showAdminDashboard, setShowAdminDashboard] = useState(false);
-  const [adminView, setAdminView] = useState('messages'); // 'messages' or 'comments'
+  const [adminView, setAdminView] = useState('messages');
   
   const { isNavbarVisible, hideNavbar, showNavbar } = useNavbar();
   const { isAuthenticated, logout } = useAdmin();
@@ -68,7 +68,7 @@ const Header = () => {
         className="relative block text-white font-[Rubik] font-bold text-base tracking-wider py-2 transition-transform duration-300 hover:scale-110 group"
       >
         {children}
-        <span className="absolute bottom-1 left-0 block h-[2px] w-0 bg-[#00ffdc] transition-all duration-500 group-hover:w-full"></span>
+        <span className="absolute bottom-1 left-0 block h-[2px] w-0 bg-[#0099ff] transition-all duration-500 group-hover:w-full"></span>
       </a>
     </li>
   );
@@ -84,7 +84,6 @@ const Header = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="fixed top-0 left-0 w-full z-50 pointer-events-none"
           >
-            {/* Drop Shadow Gradient Animated */}
             {!isScrolled && (
               <div
                 className="pointer-events-none absolute left-0 right-0 z-10"
@@ -93,16 +92,15 @@ const Header = () => {
                   height: '90px',
                   WebkitClipPath: CLIP_PATH,
                   clipPath: CLIP_PATH,
-                  background: 'linear-gradient(90deg, #00fff0, #00ffdc, #4079ff, #40ffaa, #00fff0)',
+                  background: 'linear-gradient(90deg, #0099ff, #0099ff, #4079ff, #0099ff, #0099ff)',
                   backgroundSize: '300% 100%',
                   animation: 'gradientShadowMove 6s linear infinite',
                   opacity: 1,
-                  filter: 'drop-shadow(0 16px 24px rgba(64,255,170,0.35))',
+                  filter: 'drop-shadow(0 16px 24px rgba(0,153,255,0.35))',
                 }}
               ></div>
             )}
 
-            {/* Navbar */}
             <header
               className={`pt-3 pb-3 relative z-20 pointer-events-auto transition-all duration-300
                 ${isScrolled
@@ -123,47 +121,39 @@ const Header = () => {
                 )
               }}
             >
-              {/* =========== REFACTORED NAVIGATION =========== */}
               <nav className="container mx-auto flex items-center justify-between flex-wrap pb-4 px-4">
                 
-                {/* --- MOBILE HEADER --- */}
                 <div className="w-full flex items-center justify-between md:hidden">
-                  {/* Mobile: Brand Logo & Text (Left) */}
                   <a href="#home" className="flex items-center gap-3">
                     <img src={bangzenLogo} alt="Bangzen Logo" className="h-12 w-12 flex-shrink-0" />
                     <div>
-                      <h1 className="font-moderniz text-sm text-[#00ffdc] whitespace-nowrap">Mahardika Ramadhan Siregar</h1>
-                      <p className="font-moderniz text-[9px] text-[#000754]" style={{ textShadow: '0.5px 0.5px 0 #00ffdc, -0.5px -0.5px 0 #00ffdc, 0.5px -0.5px 0 #00ffdc, -0.5px 0.5px 0 #00ffdc' }}>
+                      <h1 className="font-moderniz text-sm text-[#0099ff] whitespace-nowrap">Mahardika Ramadhan Siregar</h1>
+                      <p className="font-moderniz text-[9px] text-[#000754]" style={{ textShadow: '0.5px 0.5px 0 #0099ff, -0.5px -0.5px 0 #0099ff, 0.5px -0.5px 0 #0099ff, -0.5px 0.5px 0 #0099ff' }}>
                         Let's see the awesome Experience
                       </p>
                     </div>
                   </a>
-                  {/* Mobile: Hamburger Button (Right) */}
-                  <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-[#00ffdc] text-3xl pointer-events-auto">
+                  <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-[#0099ff] text-3xl pointer-events-auto">
                     &#9776;
                   </button>
                 </div>
 
-                {/* --- DESKTOP HEADER --- */}
                 <div className="hidden w-full md:flex items-center justify-around">
-                  {/* Desktop: Left Navigation */}
                   <ul className="flex items-center list-none gap-x-20">
                     <NavLink href="#home">Home</NavLink>
                     <NavLink href="#about">About</NavLink>
                   </ul>
                   
-                  {/* Desktop: Center Logo & Text */}
                   <a href="#home" className="flex items-center gap-3">
                     <img src={bangzenLogo} alt="Bangzen Logo" className="h-12 w-12" />
                     <div className="block">
-                      <h1 className="font-moderniz text-base text-[#00ffdc]">Mahardika Ramadhan Siregar</h1>
-                      <p className="font-moderniz text-[10px] text-[#000754]" style={{ textShadow: '0.5px 0.5px 0 #00ffdc, -0.5px -0.5px 0 #00ffdc, 0.5px -0.5px 0 #00ffdc, -0.5px 0.5px 0 #00ffdc' }}>
+                      <h1 className="font-moderniz text-base text-[#0099ff]">Mahardika Ramadhan Siregar</h1>
+                      <p className="font-moderniz text-[10px] text-[#000754]" style={{ textShadow: '0.5px 0.5px 0 #0099ff, -0.5px -0.5px 0 #0099ff, 0.5px -0.5px 0 #0099ff, -0.5px 0.5px 0 #0099ff' }}>
                         Let's see the awesome Experience
                       </p>
                     </div>
                   </a>
 
-                  {/* Desktop: Right Navigation & Admin Button */}
                   <div className="flex items-center gap-4">
                     <ul className="flex items-center list-none gap-16">
                       <NavLink href="#projects">Project</NavLink>
@@ -171,7 +161,7 @@ const Header = () => {
                     </ul>
                     <button
                       onClick={handleAdminAccess}
-                      className="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors duration-300 pointer-events-auto"
+                      className="flex items-center gap-2 text-slate-400 hover:text-[#0099ff] transition-colors duration-300 pointer-events-auto"
                       title={isAuthenticated ? "Admin Dashboard" : "Admin Login"}
                     >
                       <FaShieldAlt className={`text-lg ${isAuthenticated ? 'text-green-400' : 'text-slate-400'}`} />
@@ -179,7 +169,6 @@ const Header = () => {
                   </div>
                 </div>
 
-                {/* --- MOBILE DROPDOWN MENU --- */}
                 <AnimatePresence>
                   {isMenuOpen && (
                     <motion.div
@@ -189,7 +178,6 @@ const Header = () => {
                       transition={{ duration: 0.4, ease: 'easeInOut' }}
                       className="w-full basis-full md:hidden"
                     >
-                      {/* This is the list that now appears in a row */}
                       <ul className="flex flex-row flex-wrap justify-center items-center gap-x-8 gap-y-3 mt-4 list-none">
                         <NavLink href="#home">Home</NavLink>
                         <NavLink href="#about">About</NavLink>
@@ -198,7 +186,7 @@ const Header = () => {
                         <li>
                           <button
                             onClick={handleAdminAccess}
-                            className="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors duration-300"
+                            className="flex items-center gap-2 text-slate-400 hover:text-[#0099ff] transition-colors duration-300"
                           >
                             <FaShieldAlt className={`text-lg ${isAuthenticated ? 'text-green-400' : 'text-slate-400'}`} />
                             <span>Admin</span>
@@ -214,14 +202,12 @@ const Header = () => {
         )}
       </AnimatePresence>
 
-      {/* Admin Login Modal */}
       <AdminLogin
         isOpen={showAdminLogin}
         onClose={handleCloseAdminLogin}
         onSuccess={handleLoginSuccess}
       />
 
-      {/* Admin Dashboard - Toggle between Messages and Comments */}
       {adminView === 'messages' && (
         <AdminMessages
           isOpen={showAdminDashboard}
@@ -236,19 +222,17 @@ const Header = () => {
         />
       )}
 
-      {/* Dashboard Switcher - Floating Button */}
       {showAdminDashboard && (
         <div className="fixed bottom-6 right-6 z-[60] flex flex-col gap-2">
           <button
             onClick={() => setAdminView(adminView === 'messages' ? 'comments' : 'messages')}
-            className="bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white px-4 py-2 rounded-full shadow-lg transition-all duration-300 flex items-center gap-2"
+            className="bg-gradient-to-r from-[#0099ff] to-purple-600 hover:from-[#007acc] hover:to-purple-500 text-white px-4 py-2 rounded-full shadow-lg transition-all duration-300 flex items-center gap-2"
           >
-            {adminView === 'messages' ? '💬 Comments' : '📧 Messages'}
+            {adminView === 'messages' ? 'Comments' : 'Messages'}
           </button>
         </div>
       )}
 
-      {/* Animasi gradient keyframes */}
       <style>
         {`
           @keyframes gradientShadowMove {

@@ -160,7 +160,7 @@ function App() {
                   className={`text-white text-center md:text-left px-4 md:px-8 transition-all duration-700 ${is3dEnabled ? 'md:w-1/2' : 'md:w-2/3'}`}
                 >
                   <p className="text-2xl text-gray-300 font-moderniz my" style={{ textShadow: "2px 2px 0 #000754, 4px 4px 0 #4079ff, 0 4px 12px #40ffaa, 0 1px 0 #00ffdc" }}>Hello, I'm</p>
-                  <h3 className="text-4xl font-bold text-white my-2 font-moderniz" style={{ textShadow: "2px 2px 0 #000754, 4px 4px 0 #4079ff, 0 4px 12px #40ffaa, 0 1px 0 #00ffdc" }}>Mahardika Ramadhan Siregar</h3>
+                  <h3 className="text-4xl font-bold text-white my-2 font-moderniz" style={{ textShadow: "2px 2px 0 #000754, 4px 4px 0 #4079ff, 0 4px 12px #40ffaa, 0 1px 0 #00ffdc" }}>Mahardika Ramadan Siregar</h3>
                   <p className="text-white/80 leading-relaxed mt-4 font-cascadia text-justify">
                     Saya adalah alumni DKV di SMKN 5 KOTA TANGERANG yang memiliki minat besar dalam pengembangan Front-End dan teknologi web modern. Saya selalu bersemangat untuk belajar hal baru dan menciptakan solusi digital yang inovatif.
                   </p>
@@ -210,7 +210,7 @@ function App() {
 
             {/* FOOTER */}
             <footer className="py-8 text-center text-gray-400">
-              <div className="text-sm">© {new Date().getFullYear()} Mahardika Ramadhan Siregar. All rights reserved.</div>
+              <div className="text-sm">© {new Date().getFullYear()} Mahardika Ramadan Siregar. All rights reserved.</div>
               <div className="text-xs mt-2">Built with <span className="text-red-500">♥</span> using React, Tailwind CSS, and Framer Motion.</div>
             </footer>
           </main>

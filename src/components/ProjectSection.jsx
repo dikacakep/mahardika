@@ -14,23 +14,49 @@ import { LuBadge } from "react-icons/lu";
 import { LiaLayerGroupSolid } from "react-icons/lia";
 import { useNavbar } from '../contexts/NavbarContext';
 
-// ===================================
-// DATA PROYEK (CONTOH)
-// ===================================
 const dummyProjects = [
-    {
-    title: "Portfolio",
-    description: "Discord bot untuk memantau stok item real-time dari game Roblox, kini telah terverifikasi resmi oleh Discord dengan Verified Bot Badge.",
-    tech: ["JavaScript", "NodeJS", "DiscordJS", "NextJS"],
-    link: "https://plantvsbrainrots.vercel.app/",
-    image: "https://plantvsbrainrots.vercel.app/discord.png",
+  {
+    title: "GarudaPS",
+    description: "Website komunitas gaming GarudaPS — hub utama untuk info server, komunitas, dan layanan iRexus bot.",
+    tech: ["Next.js", "React", "TailwindCSS"],
+    link: "https://www.garudaps.com",
+    image: "https://cdn.discordapp.com/attachments/1361671759857848558/1482443615648354344/image.png?ex=69b6f8b4&is=69b5a734&hm=1f8901cf79855212e9b23cc93faa8bd74c78ef3eeadbc27be8748160fb1d0e41&",
     category: "Web/Apps",
+  },
+  {
+    title: "Portfolio",
+    description: "Personal portfolio website dengan animasi Spline 3D, preloader interaktif, dan showcase project.",
+    tech: ["Next.js", "React", "TailwindCSS", "Framer Motion"],
+    link: "https://www.garudaps.com",
+    image: "https://cdn.discordapp.com/attachments/1361671759857848558/1482443615648354344/image.png?ex=69b6f8b4&is=69b5a734&hm=1f8901cf79855212e9b23cc93faa8bd74c78ef3eeadbc27be8748160fb1d0e41&",
+    category: "Web/Apps",
+  },
+  {
+    title: "iRexus",
+    description: "Discord bot anti-alt & anti-VPN dengan sistem verifikasi web terintegrasi, token-based verification, dan role management otomatis. Telah mendapatkan Discord Verified Bot Badge resmi.",
+    tech: ["JavaScript", "Node.js", "Express", "MongoDB"],
+    link: "https://www.garudaps.com",
+    image: "https://cdn.discordapp.com/attachments/1361671759857848558/1482442940209958962/image.png?ex=69b6f813&is=69b5a693&hm=5af4fea54bdd9f5fecc40e8aa991f428e66c71c1293e56b5d26f0cf5818b6b1d&",
+    category: "Discord Bot",
+  },
+  {
+    title: "iRexus Verify Web",
+    description: "Web verification system terintegrasi dengan iRexus bot — halaman verifikasi real-time dengan webhook Express, token expiry, dan resend link via DM.",
+    tech: ["JavaScript", "Node.js", "Express"],
+    link: "https://www.garudaps.com",
+    image: "https://cdn.discordapp.com/attachments/1361671759857848558/1482443615648354344/image.png?ex=69b6f8b4&is=69b5a734&hm=1f8901cf79855212e9b23cc93faa8bd74c78ef3eeadbc27be8748160fb1d0e41&",
+    category: "Discord Bot",
+  },
+  {
+    title: "iRexus WhatsApp Bot",
+    description: "WhatsApp bot multifitur berbasis Baileys — XP & leveling system, Blox Fruit stock monitor, market group, quiz, AI chat, translator, TTS, anti-link, sticker maker, dan reminder.",
+    tech: ["JavaScript", "Node.js", "Baileys"],
+    link: "https://www.garudaps.com",
+    image: "https://cdn.discordapp.com/attachments/1361671759857848558/1482443204975529994/image.png?ex=69b6f852&is=69b5a6d2&hm=3c01b6e4b8e7ca0b0776076f0129b2d214d610e7d8f1f4e0c5be93afef373eab&",
+    category: "Discord Bot",
   },
 ];
 
-// ===================================
-// DATA SERTIFIKAT ZAIN AHMAD FAHREZI
-// ===================================
 const userCertificates = [
     {
         title: "Null",
@@ -66,9 +92,6 @@ const techStack = {
   ],
 };
 
-// ===================================
-// HELPER & ANIMATION COMPONENTS
-// ===================================
 const LineShadowText = ({ children, className, shadowColor = "#4079ff", ...props }) => {
     return (
         <motion.span
@@ -82,9 +105,6 @@ const LineShadowText = ({ children, className, shadowColor = "#4079ff", ...props
     );
 };
 
-// ===================================
-// KOMPONEN KARTU SERTIFIKAT
-// ===================================
 const CertificateCard = ({ cert, onClick }) => {
     return (
         <motion.div
@@ -134,9 +154,6 @@ const CertificateCard = ({ cert, onClick }) => {
     );
 };
 
-// ===================================
-// KOMPONEN PREVIEW MODAL SERTIFIKAT
-// ===================================
 const CertificatePreviewModal = ({ certificate, onClose }) => {
     if (!certificate) return null;
     
@@ -188,14 +205,12 @@ const CertificatePreviewModal = ({ certificate, onClose }) => {
     );
 };
 
-// ===================================
-// KOMPONEN KARTU PROYEK
-// ===================================
 const ProjectCard = ({ project }) => {
     const techIcons = {
     "Next.js": <SiNextdotjs />, "React": <FaReact />, "TailwindCSS": <SiTailwindcss />,
-    "Framer Motion": " गति ", "Node.js": <FaNodeJs />, "Express": <SiExpress />, 
-    "MongoDB": <SiMongodb />, "JWT": "🔑", "Figma": <FaFigma />, "Storybook": "📚"
+    "Tailwind CSS": <SiTailwindcss />, "Framer Motion": "🎞", "Node.js": <FaNodeJs />,
+    "Express": <SiExpress />, "MongoDB": <SiMongodb />, "Figma": <FaFigma />,
+    "JavaScript": <FaJsSquare />, "Baileys": <FaNodeJs />,
     };
 
     return (
@@ -225,19 +240,14 @@ const ProjectCard = ({ project }) => {
     );
 };
 
-// ===================================
-// KOMPONEN UTAMA SECTION PROJECT
-// ===================================
 function ProjectSection() {
   const [activeTab, setActiveTab] = useState('Projects');
   const [projectCategory, setProjectCategory] = useState('Web/Apps');
   const [previewCertificate, setPreviewCertificate] = useState(null);
   const { hideNavbar, showNavbar } = useNavbar();
 
-  // === CHANGE START: State dan konstanta untuk Show More/Less ===
   const INITIAL_CERTIFICATES_TO_SHOW = 6;
   const [visibleCertificatesCount, setVisibleCertificatesCount] = useState(INITIAL_CERTIFICATES_TO_SHOW);
-  // === CHANGE END ===
 
   useEffect(() => {
     if (previewCertificate) {
@@ -259,11 +269,12 @@ function ProjectSection() {
     { id: 'Tech Stack', label: 'Tech Stack', icon: <LiaLayerGroupSolid className="text-[1.5em] mb-1" /> },
   ];
 
+  const projectCategories = ['Web/Apps', 'Discord Bot', '3D Design'];
+
   const filteredProjects = dummyProjects.filter(
     (p) => p.category === projectCategory
   );
 
-  // === CHANGE START: Handler untuk tombol Show More/Less ===
   const handleShowMore = () => {
     setVisibleCertificatesCount(userCertificates.length);
   };
@@ -271,7 +282,6 @@ function ProjectSection() {
   const handleShowLess = () => {
     setVisibleCertificatesCount(INITIAL_CERTIFICATES_TO_SHOW);
   };
-  // === CHANGE END ===
 
   return (
     <section id="project" className="py-20">
@@ -345,9 +355,16 @@ function ProjectSection() {
             >
               {activeTab === 'Projects' && (
                 <>
-                  <div className="flex justify-center gap-4 mb-8">
-                    <button className={`px-5 py-2 rounded-full font-semibold transition-all duration-200 border ${projectCategory === 'Web/Apps' ? 'bg-cyan-700/80 text-white border-cyan-400 shadow-cyan-500/10 shadow-lg' : 'bg-slate-900/60 text-cyan-200 border-slate-700 hover:bg-cyan-800/40 hover:text-white'}`} onClick={() => setProjectCategory('Web/Apps')}>Web/Apps</button>
-                    <button className={`px-5 py-2 rounded-full font-semibold transition-all duration-200 border ${projectCategory === '3D Design' ? 'bg-cyan-700/80 text-white border-cyan-400 shadow-cyan-500/10 shadow-lg' : 'bg-slate-900/60 text-cyan-200 border-slate-700 hover:bg-cyan-800/40 hover:text-white'}`} onClick={() => setProjectCategory('3D Design')}>3D Design</button>
+                  <div className="flex justify-center gap-4 mb-8 flex-wrap">
+                    {projectCategories.map((cat) => (
+                      <button
+                        key={cat}
+                        className={`px-5 py-2 rounded-full font-semibold transition-all duration-200 border ${projectCategory === cat ? 'bg-cyan-700/80 text-white border-cyan-400 shadow-cyan-500/10 shadow-lg' : 'bg-slate-900/60 text-cyan-200 border-slate-700 hover:bg-cyan-800/40 hover:text-white'}`}
+                        onClick={() => setProjectCategory(cat)}
+                      >
+                        {cat}
+                      </button>
+                    ))}
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredProjects.length > 0 ? (
@@ -361,14 +378,12 @@ function ProjectSection() {
               {activeTab === 'Certificate' && (
                 <div className="space-y-8">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                    {/* === CHANGE: Menggunakan slice untuk menampilkan sertifikat yang terlihat === */}
                     <AnimatePresence>
                       {userCertificates.slice(0, visibleCertificatesCount).map((cert, i) => (
                         <CertificateCard key={i} cert={cert} onClick={setPreviewCertificate} />
                       ))}
                     </AnimatePresence>
                   </div>
-                  {/* === CHANGE START: Menambahkan tombol Show More/Less secara kondisional === */}
                   {userCertificates.length > INITIAL_CERTIFICATES_TO_SHOW && (
                     <div className="flex justify-center mt-12">
                       {visibleCertificatesCount < userCertificates.length ? (
@@ -392,7 +407,6 @@ function ProjectSection() {
                       )}
                     </div>
                   )}
-                  {/* === CHANGE END === */}
                 </div>
               )}
               {activeTab === 'Tech Stack' && (

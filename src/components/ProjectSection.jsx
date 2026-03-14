@@ -16,19 +16,11 @@ import { useNavbar } from '../contexts/NavbarContext';
 
 const dummyProjects = [
   {
-    title: "GarudaPS",
+    title: "Garuda Private Server (Growtopia)",
     description: "Website komunitas gaming GarudaPS — hub utama untuk info server, komunitas, dan layanan iRexus bot.",
     tech: ["Next.js", "React", "TailwindCSS"],
     link: "https://www.garudaps.com",
-    image: "https://cdn.discordapp.com/attachments/1361671759857848558/1482443615648354344/image.png?ex=69b6f8b4&is=69b5a734&hm=1f8901cf79855212e9b23cc93faa8bd74c78ef3eeadbc27be8748160fb1d0e41&",
-    category: "Web/Apps",
-  },
-  {
-    title: "Portfolio",
-    description: "Personal portfolio website dengan animasi Spline 3D, preloader interaktif, dan showcase project.",
-    tech: ["Next.js", "React", "TailwindCSS", "Framer Motion"],
-    link: "https://www.garudaps.com",
-    image: "https://cdn.discordapp.com/attachments/1361671759857848558/1482443615648354344/image.png?ex=69b6f8b4&is=69b5a734&hm=1f8901cf79855212e9b23cc93faa8bd74c78ef3eeadbc27be8748160fb1d0e41&",
+    image: "https://cdn.discordapp.com/attachments/1361671759857848558/1482445482729935011/image.png?ex=69b6fa71&is=69b5a8f1&hm=d86d9e10f44bf74f42e2c10ea9a74ba631c200344dd2a5d00c336873f6a056af&",
     category: "Web/Apps",
   },
   {
